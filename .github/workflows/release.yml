@@ -1,0 +1,68 @@
+name: Release
+on:
+  push:
+    tags: "v*"
+jobs:
+  build:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.15.x
+      - name: Build
+        run: |
+          make cross
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - name: Upload Linux Build
+        id: upload-linux-build
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./embed
+          asset_name: embed
+          asset_content_type: application/octet-stream
+      - name: Upload Windows Build
+        id: upload-windows-build
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./embed.exe
+          asset_name: embed.exe
+          asset_content_type: application/octet-stream
+      - name: Upload Mac Build
+        id: upload-mac-build
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./embed.mac
+          asset_name: embed.mac
+          asset_content_type: application/octet-stream
+      - name: Upload Raspberry Pi Build
+        id: upload-raspberry-pi-build
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./embed.pi
+          asset_name: embed.pi
+          asset_content_type: application/octet-stream
