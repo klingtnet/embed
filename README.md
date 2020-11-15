@@ -15,6 +15,8 @@ Please note that this tool, as well as most other static file embedding tools, w
 
 ## Usage
 
+![a demo of embed](https://golangleipzig.space/372959.gif)
+
 You can run the tool with `go run github.com/klingtnet/embed/cmd/embed` or by downloading a precompiled binary from the [releases page](https://github.com/klingtnet/embed/releases).
 
 ```sh
