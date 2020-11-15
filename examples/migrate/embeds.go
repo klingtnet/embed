@@ -1,12 +1,11 @@
 package main
 
 import (
-	"encoding/base64"
 	"sort"
 )
 
 const (
-	file6d6967726174696f6e732f30315f6578616d706c652e75702e73716c = "Q1JFQVRFIFRBQkxFIHQoYSBURVhUKTs"
+	file6d6967726174696f6e732f30315f6578616d706c652e75702e73716c = "\x43\x52\x45\x41\x54\x45\x20\x54\x41\x42\x4c\x45\x20\x74\x28\x61\x20\x54\x45\x58\x54\x29\x3b"
 )
 
 // Embedded implements github.com/klingtnet/embed/Embed .
@@ -37,11 +36,7 @@ func (e Embedded) File(path string) []byte {
 	if !ok {
 		return nil
 	}
-	d, err := base64.RawStdEncoding.DecodeString(file)
-	if err != nil {
-		panic(err)
-	}
-	return d
+	return []byte(file)
 }
 
 // FileString implements github.com/klingtnet/embed/Embed .

@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"context"
-	"encoding/base64"
 	"fmt"
 	"go/format"
 	"io/ioutil"
@@ -15,19 +14,31 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
+const hextable = "0123456789abcdef"
+
 func pathToVar(path string) string {
 	return fmt.Sprintf("file%x", []byte(path))
 }
 
 func encodeFile(data []byte) string {
-	return base64.RawStdEncoding.EncodeToString(data)
+
+	dst := make([]byte, len(data)*4)
+	j:= 0
+	for _, v := range data {
+		dst[j] = '\\'
+		dst[j+1] = 'x'
+		dst[j+2] = hextable[v>>4]
+		dst[j+3] = hextable[v&0x0f]
+		j += 4
+	}
+
+	return string(dst)
 }
 
 var (
 	fileTemplate = template.Must(template.New("").Funcs(template.FuncMap{"pathToVar": pathToVar, "encode": encodeFile}).Parse(`package {{ .Package }}
 
 import (
-	"encoding/base64"
 	"sort"
 )
 
@@ -67,11 +78,7 @@ func (e Embedded) File(path string) []byte {
 	if !ok {
 		return nil
 	}
-	d, err := base64.RawStdEncoding.DecodeString(file)
-	if err != nil {
-		panic(err)
-	}
-	return d
+	return []byte(file)
 }
 
 // FileString implements github.com/klingtnet/embed/Embed .
