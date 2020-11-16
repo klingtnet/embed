@@ -14,25 +14,12 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-const hextable = "0123456789abcdef"
-
 func pathToVar(path string) string {
 	return fmt.Sprintf("file%x", []byte(path))
 }
 
 func encodeFile(data []byte) string {
-
-	dst := make([]byte, len(data)*4)
-	j:= 0
-	for _, v := range data {
-		dst[j] = '\\'
-		dst[j+1] = 'x'
-		dst[j+2] = hextable[v>>4]
-		dst[j+3] = hextable[v&0x0f]
-		j += 4
-	}
-
-	return string(dst)
+	return fmt.Sprintf("%q", data)
 }
 
 var (
@@ -44,7 +31,7 @@ import (
 
 const (
 {{- range $path, $data := .Files }}
-	{{ pathToVar $path }} = "{{ encode $data }}"
+	{{ pathToVar $path }} = {{ encode $data }}
 {{- end }}
 )
 
