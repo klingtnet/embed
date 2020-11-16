@@ -9,7 +9,7 @@ embed is a tool for embedding static content in your Go application.
 
 It provides three methods, listing embedded files and getting their content as `[]byte` or `string`.  If you need a `io.Writer` just wrap the `[]byte` content in a `bytes.NewBuffer`.
 
-The motivation for building yet another static file embedding tool for Go was that I am not satisified with any of the existing tools, they either have inconvenient APIs or did not support to include more than a single folder or file.
+The motivation for building yet another static file embedding tool for Go was that I am not satisfied with any of the existing tools, they either have inconvenient APIs or did not support to include more than a single folder or file.
 
 Please note that this tool, as well as most other static file embedding tools, will be redundant as soon as the proposal to [add support for embedded files](https://github.com/golang/go/issues/41191) lands in `go/cmd`.
 
