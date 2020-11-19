@@ -18,5 +18,8 @@ test:
 	go run ./cmd/embed --package internal --destination internal/embeds.go --include internal/testdata
 	go test ./...
 
+bench:
+	go test -v -run=Benchmark -bench=. ./...
+
 clean:
 	git clean -fd
