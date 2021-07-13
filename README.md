@@ -1,5 +1,11 @@
 # embed
 
+:warning: **DEPRECATED** :warning:
+
+Please use [`embed`](https://pkg.go.dev/embed) from Go's standard library instead.
+
+---
+
 ![CI](https://github.com/klingtnet/embed/workflows/CI/badge.svg)
 
 - [Documentation](https://pkg.go.dev/github.com/klingtnet/embed)
